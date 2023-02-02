@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
+:root {
+  font-family: Ubuntu, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  background-color: transparent;
+  font: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  inline-size: available;
+  border: none;
+  cursor: pointer;
+}
+button:not(.raw) {
+  border: 2px solid black;
+  padding: .25rem .5rem;
+  border-radius: 8px;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+  text-align: center;
+}
+button[disabled] {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+button:not([disabled]):not(.raw):hover {
+  color: white;
+  background-color: black;
+}
+
+
+a.raw {
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+}
+
+a:not(.raw) {
+  color: black;
+  padding: 2px 0.75em;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+  border-radius: 4px;
+}
+a.icon, button.icon {
+  display: flex;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: 1.5em;
+  border-radius: 100vh;
+  text-decoration: none;
+  padding: 0;
+  text-align: center;
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+}
+
+a:not(.raw):hover {
+  color: white;
+  background: black;
+}
+
+.button-effect {
+  transition: color 200ms ease-out, background-color 200ms ease-out;
+}
+
+.button-effect:hover {
+  color: white;
+  background-color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+form {
+  padding: 0.5rem;
+}
+
+.form-field {
+  display: flex;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+input, textarea {
+  flex: 1;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3);
+  box-shadow: 1px 1px 2px 1px rgba(0,0,0,0.3);
+  border-radius: 4px;
+  line-height: 24px;
+  padding: 0 .5rem;
+}
+
+.markdown-render pre {
+  background: #eee;
+  padding: 0 .5rem;
+}
+
+.markdown-render :is(h1, h2, h3, h4, h5, h6, p) {
+  margin-block: 0.67em;
+}
+.markdown-render > *:first-child {
+  margin-top: 0;
+}

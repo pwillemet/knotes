@@ -1,0 +1,16 @@
+{
+  "name": "KNotes GraphQL Schema",
+  "schemaPath": "schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "https://pwillemet.fr/hasura/v1/graphql",
+        "headers": {
+          "x-hasura-admin-secret": "Xd#:_]:\"a ruDCI4l.L(8\":wL",
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
