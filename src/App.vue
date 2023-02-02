@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import Header from "./layout/Header.vue";
+  import KNotesHeader from "./layout/KNotesHeader.vue";
   import { marked } from "marked";
 
   marked.setOptions(
@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <Header></Header>
+  <KNotesHeader></KNotesHeader>
   <main>
     <router-view></router-view>
   </main>

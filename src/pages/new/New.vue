@@ -6,7 +6,6 @@
         <textarea v-model="content"
                   id="textarea-content"
                   name="textarea-content"
-                  v-on:input="parseContent"
                   placeholder="# Commencez par un titre ou glissez/déposez un fichier Markdown..."
                   v-bind:class="{ 'drag-target': dragging }"
                   v-on:dragover="dragOverHandler"
@@ -46,8 +45,8 @@ export default defineComponent({
     }
   },
   methods: {
-    parseContent() {
-      marked.parse(this.content, (err, parseResult) => {
+    parseContent(value: string) {
+      marked.parse(value, (err, parseResult) => {
         if (err == null) {
           this.err = "";
           this.markdownRender = parseResult;
@@ -85,6 +84,15 @@ export default defineComponent({
       }
     }
   },
+  watch: {
+    content: {
+      handler(value) {
+        console.log("watch")
+        this.parseContent(value);
+      },
+      immediate: true,
+    }
+  },
   mounted() {
     const id = this.$route.params.id;
     if (id != null && typeof id === "string") {
@@ -93,7 +101,6 @@ export default defineComponent({
             if (note != null) {
               this.updatingNote = note;
               this.content = note.content;
-              this.parseContent();
             }
           })
           .catch(err => console.error(err))

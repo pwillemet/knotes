@@ -2,7 +2,7 @@
   import { defineComponent } from 'vue'
 
   export default defineComponent({
-    name: "Header",
+    name: "KNotesHeader",
     computed: {
       showSearch(): boolean {
         return this.$route.path === "/";
@@ -41,6 +41,10 @@
 
 <style scoped>
 header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 3;
   display: flex;
   align-items: center;
   gap: clamp(8px, 2%, 2.5em);

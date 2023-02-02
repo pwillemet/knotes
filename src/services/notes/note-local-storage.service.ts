@@ -4,7 +4,7 @@ import { v4 } from "uuid";
 import dayjs from "dayjs";
 import "../global";
 
-const LOCAL_STORAGE_NOTES_KEY = "knotes.notes"
+export const LOCAL_STORAGE_NOTES_KEY = "knotes.notes"
 
 class NoteLocalStorageService implements NoteService {
 

@@ -70,6 +70,7 @@ export default defineComponent({
 <style scoped>
 .card {
   display: flex;
+  align-items: flex-start;
   padding: 4px 0.5rem;
   -webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);
   box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);
@@ -79,7 +80,7 @@ article {
 }
 .markdown-render {
   overflow: hidden;
-  height: 250px;
+  height: 180px;
   transition: height 300ms linear;
 }
 .selected .markdown-render {
@@ -89,6 +90,8 @@ article {
 .actions {
   font-size: 1.2rem;
   width: fit-content;
+  position: sticky;
+  top: 136px;
 }
 .actions > * {
   margin-bottom: 4px;

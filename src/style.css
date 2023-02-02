@@ -110,8 +110,16 @@ input, textarea {
   padding: 0 .5rem;
 }
 
-.markdown-render :is(h1, h2, h3, h4, h5, h6, p) {
+.markdown-render code {
+  background: #eee;
+}
+
+.markdown-render :is(h1, h2, h3, h4, h5, h6, p, ul) {
   margin-block: 0.67em;
+}
+.markdown-render ul {
+  list-style-type: disc;
+  padding-left: 1em;
 }
 .markdown-render > *:first-child {
   margin-top: 0;

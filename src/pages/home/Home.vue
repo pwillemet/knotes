@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent, onUnmounted } from 'vue'
 import { isNoteArray, Note } from '../../services/notes/note.model.js'
-import NoteLocalStorageService from '../../services/notes/note-local-storage.service'
+import NoteLocalStorageService, { LOCAL_STORAGE_NOTES_KEY } from '../../services/notes/note-local-storage.service'
 import NoteCard from '../../components/NoteCard.vue'
 import { RouteLocationNormalizedLoaded } from 'vue-router'
 
@@ -106,6 +106,22 @@ export default defineComponent({
       return this.notes.filter(note => regex.test(note.content))
     }
   },
+  beforeCreate () {
+    if (window.localStorage.getItem(LOCAL_STORAGE_NOTES_KEY) == null) {
+      try {
+        fetch("/presentation.md")
+            .then(result => {
+              if (!result.ok) throw new Error(result.statusText);
+              return result;
+            })
+            .then(result => result.text())
+            .then(text => NoteLocalStorageService.storeNote({ content: text, keywords: [] }))
+            .then(note => this.getAllNotes())
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  },
   mounted () {
     this.getAllNotes();
     const globalClickEventListener = (e: Event) => this.showMenu = false;
@@ -126,8 +142,14 @@ export default defineComponent({
 
 <style scoped>
 .header {
-  margin: 0.5rem 2rem;
+  position: sticky;
+  top: 77px;
   display: flex;
+  background: white;
+  z-index: 1;
+  align-items: center;
+  padding: .5rem 2rem;
+  border-bottom: 1px solid black;
 }
 .actions {
   margin-left: auto;
@@ -169,11 +191,13 @@ export default defineComponent({
   margin: 5rem auto;
 }
 .cards-list {
-  margin-top: 1rem;
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+.cards-list li {
+  max-width: 50em;
 }
 .cards-list li button {
   display: block;
