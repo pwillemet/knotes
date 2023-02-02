@@ -195,8 +195,10 @@ export default defineComponent({
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  justify-items: center;
 }
 .cards-list li {
+  width: 100%;
   max-width: 50em;
 }
 .cards-list li button {
