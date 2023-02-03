@@ -12,8 +12,19 @@
       <button class="actions__button" v-on:click="toggleMenu">Actions…</button>
     </div>
   </div>
-  <router-link v-if="notes.length === 0" to="/new" class="start-sentence">Créez votre première note !</router-link>
-  <div>
+  <div class="content">
+    <aside v-bind:class="{ display: showKeywords }">
+      <div class="aside-toggler">
+        <h3>Mots-Clés</h3>
+        <button class="raw aside-toggler-button" v-on:click="toggleKeywords">{{ showKeywords ? "«" : "»" }}</button>
+      </div>
+      <ul class="keywords-list">
+        <li class="keywords-list-item" v-for="keyword in keywords" :key="keyword">
+          <button class="raw keyword-button" v-on:click="() => toggleKeyword(keyword)" v-bind:class="{ selected: selectedKeywords.includes(keyword) }">{{ keyword }}</button>
+        </li>
+      </ul>
+    </aside>
+    <router-link v-if="notes.length === 0" to="/new" class="start-sentence">Créez votre première note !</router-link>
     <ul class="cards-list">
       <li v-for="note in displayNotes" :key="note.id">
         <button class="raw" v-on:click="() => selectNote(note)">
@@ -66,6 +77,8 @@ export default defineComponent({
       search: "",
       selectedNote: null as Note | null,
       showMenu: false,
+      showKeywords: false,
+      selectedKeywords: [] as string[],
     };
   },
   methods: {
@@ -80,6 +93,17 @@ export default defineComponent({
     toggleMenu(e: Event) {
       e.stopPropagation();
       this.showMenu = !this.showMenu;
+    },
+    toggleKeywords(e: Event) {
+      this.showKeywords = !this.showKeywords;
+    },
+    toggleKeyword(keyword: string) {
+      const [extractedKeyword, newSelectedKeywords] = this.selectedKeywords.extract(k => k === keyword);
+      if (extractedKeyword != null) {
+        this.selectedKeywords = newSelectedKeywords;
+      } else {
+        this.selectedKeywords = [...this.selectedKeywords, keyword];
+      }
     },
     exportAll() {
       download(this.notes);
@@ -101,9 +125,14 @@ export default defineComponent({
   },
   computed: {
     displayNotes(): Note[] {
-      if (!this.search) return this.notes;
       const regex = new RegExp(this.search, "im");
-      return this.notes.filter(note => regex.test(note.content))
+      return this.notes
+          .filter(note => regex.test(note.content))
+          .filter(note => this.selectedKeywords.every(keyword => note.keywords.includes(keyword)))
+    },
+    keywords(): string[] {
+      const keywords = this.notes.map(note => note.keywords).flat();
+      return [...new Set(keywords)];
     }
   },
   beforeCreate () {
@@ -115,7 +144,7 @@ export default defineComponent({
               return result;
             })
             .then(result => result.text())
-            .then(text => NoteLocalStorageService.storeNote({ content: text, keywords: [] }))
+            .then(text => NoteLocalStorageService.storeNote({ content: text, keywords: ["introduction"] }))
             .then(note => this.getAllNotes())
       } catch (e) {
         console.error(e);
@@ -151,6 +180,9 @@ export default defineComponent({
   padding: .5rem 2rem;
   border-bottom: 1px solid black;
 }
+.content {
+  display: flex;
+}
 .actions {
   margin-left: auto;
   margin-right: 4rem;
@@ -185,6 +217,50 @@ export default defineComponent({
   background: black;
   margin-block: .1rem;
 }
+aside {
+  width: clamp(7.8rem, 25%, 15rem);
+  height: calc(100vh - 131px);
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-left: calc(2em - clamp(7.5rem, 25%, 15rem));
+  transition: margin-left 250ms ease-out;
+}
+aside.display {
+  margin-left: 0;
+}
+.aside-toggler {
+  display: flex;
+  border-bottom: 1px solid black;
+}
+.aside-toggler h3 {
+  margin-left: auto;
+}
+.aside-toggler-button {
+  font-size: 2rem;
+  margin-left: auto;
+  border-left: 1px solid black;
+  padding-inline: .5rem;
+}
+.aside-toggler-button:hover {
+  color: #999;
+}
+.keywords-list {
+  visibility: hidden;
+  height: calc(100% - 25px);
+  overflow: auto;
+}
+.display .keywords-list {
+  visibility: visible;
+}
+.keyword-button {
+  display: block;
+  width: 100%;
+  padding-inline: .5rem;
+}
+.keyword-button.selected {
+  color: white;
+  background: black;
+}
 .start-sentence {
   display: block;
   width: fit-content;
@@ -196,6 +272,7 @@ export default defineComponent({
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   justify-items: center;
+  flex: 1;
 }
 .cards-list li {
   width: 100%;
@@ -211,6 +288,10 @@ export default defineComponent({
   .cards-list button:hover {
     transition: translate 200ms cubic-bezier(0,2.00,.75,2.00);
     translate: 4px -4px;
+  }
+
+  .keyword-button:hover {
+    text-decoration: underline;
   }
 }
 

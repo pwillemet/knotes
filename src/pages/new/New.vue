@@ -1,8 +1,12 @@
 <template>
   <h1>{{ updatingNote ? "Modifier une " : "Nouvelle" }} note</h1>
   <form v-on:submit="addNote">
+    <div class="form-field">
+      <label for="keywords-form-field">Mots-clés&nbsp;:&nbsp;</label>
+      <input type="text" id="keywords-form-field" class="keywords-form-field" v-model="keywords"/>
+    </div>
     <div class="form-field markdown-form-field">
-      <div>
+
         <textarea v-model="content"
                   id="textarea-content"
                   name="textarea-content"
@@ -12,7 +16,7 @@
                   v-on:dragenter="dragEnterHandler"
                   v-on:drop="dropHandler"
         ></textarea>
-      </div>
+
       <div class="separator" />
       <div v-html="markdownRender" class="markdown-render"></div>
       <p v-if="err" class="error-message">{{err}}</p>
@@ -37,6 +41,7 @@ export default defineComponent({
   name: 'New',
   data() {
     return {
+      keywords: "",
       content: "",
       err: "",
       markdownRender: "",
@@ -60,7 +65,7 @@ export default defineComponent({
       const note: NewNote = {
         ...this.updatingNote ?? {},
         content: this.content,
-        keywords: [],
+        keywords: this.keywords.split(/\s+/),
       }
       const promise = this.updatingNote
           ? NoteLocalStorageService.updateNote(note as Note)
@@ -87,7 +92,6 @@ export default defineComponent({
   watch: {
     content: {
       handler(value) {
-        console.log("watch")
         this.parseContent(value);
       },
       immediate: true,
@@ -101,6 +105,7 @@ export default defineComponent({
             if (note != null) {
               this.updatingNote = note;
               this.content = note.content;
+              this.keywords = note.keywords.join(" ");
             }
           })
           .catch(err => console.error(err))
@@ -123,7 +128,12 @@ h1 {
   text-align: center;
 }
 
+.keywords-form-field {
+  height: 32px;
+}
+
 .markdown-form-field {
+  height: clamp(100px, 50vh, 30rem);
   display: grid;
   align-items: stretch;
   gap: 1rem;
@@ -135,7 +145,7 @@ h1 {
 }
 
 textarea {
-  height: clamp(100px, 50vh, 30rem);
+  height: 100%;
   width: 100%;
   resize: none;
 }
@@ -158,6 +168,8 @@ textarea {
 }
 
 .markdown-render {
+  height: 100%;
+  overflow: auto;
   border: solid black 1px;
   padding: .5rem;
 }

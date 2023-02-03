@@ -52,7 +52,7 @@ class NoteLocalStorageService implements NoteService {
     const notes = await this.getNotes();
     const [oldNote, newNotes] = notes.extract((n) => n.id === note.id);
     if (oldNote == null) throw new Error("Note not found");
-    const newNote: Note = { ...oldNote, content: note.content, updated_at: dayjs().toISOString() }
+    const newNote: Note = { ...oldNote, content: note.content, keywords: note.keywords, updated_at: dayjs().toISOString() }
     newNotes.push(newNote);
     await this.storeNotes(newNotes);
     return Promise.resolve(newNote);

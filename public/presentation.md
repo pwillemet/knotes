@@ -1,6 +1,6 @@
 # Bienvenue ! ❤️
 
-Knotes est un petit utilitaire sans prétention permettant de rédiger des notes en Markdown dans le navigateur.  
+Knotes est un petit utilitaire sans prétention permettant de rédiger des notes en Markdown dans le navigateur avec un rendu en temps-réel.  
 
 ## Pas besoin de compte ! 🤩
 
@@ -19,7 +19,7 @@ Knotes vous permet de rédiger des notes en Markdown, mais dispose également de
 - Filtrez vos notes pour mieux vous organiser
 
 ## Technologies 🦾
-Ce site est construit avec <a href="https://vuejs.org/">Vue.js 3</a> <img src="vue.svg" style="height: 20px" /> et <a href="https://vitejs.dev/">Vite</a> <img src="vite.svg" style="height: 20px" />
+Ce site est construit avec <a href="https://vuejs.org/">Vue.js 3</a> <img src="/vue.svg" style="height: 20px" /> et <a href="https://vitejs.dev/">Vite</a> <img src="/vite.svg" style="height: 20px" />
 
 Il utilise également les bibliothèques suivantes :
 - <a href="https://router.vuejs.org/">Vue Router</a> : Navigation SPA
