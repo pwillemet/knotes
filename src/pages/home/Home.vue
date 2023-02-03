@@ -219,7 +219,9 @@ export default defineComponent({
 }
 aside {
   width: clamp(7.8rem, 25%, 15rem);
-  height: calc(100vh - 131px);
+  height: calc(100vh - 129px);
+  position: sticky;
+  top: 129px;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
   margin-left: calc(2em - clamp(7.5rem, 25%, 15rem));
