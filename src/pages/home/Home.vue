@@ -182,6 +182,7 @@ export default defineComponent({
 }
 .content {
   display: flex;
+  align-items: flex-start;
 }
 .actions {
   margin-left: auto;
